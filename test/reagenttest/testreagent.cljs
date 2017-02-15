@@ -459,9 +459,9 @@
     (is (= (rstr (ae [:div [:div "foo"]]))
            (rstr (ae [:div (ce "div" nil "foo")]))))))
 
-(def ndiv ($ util/react
-              createClass
-              #js{:displayName "ndiv"
+(def ndiv ($ util/module
+             createClass
+             #js{:displayName "ndiv"
                   :render
                   (fn []
                     (this-as
@@ -924,7 +924,7 @@
             comp4 (fn comp4 []
                     (for [i (range 0 1)]
                       [:p "foo"]))
-            nat ($ util/react createClass #js{:render (fn [])})
+            nat ($ util/module createClass #js{:render (fn [])})
             pkg "reagenttest.testreagent."
             stack1 (str "in " pkg "comp1")
             stack2 (str "in " pkg "comp2 > " pkg "comp1")

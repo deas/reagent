@@ -1,14 +1,19 @@
 (ns reagent.impl.util
-  (:require [cljsjs.react]
+  (:require [react]
             [reagent.debug :refer-macros [dbg log warn]]
             [reagent.interop :refer-macros [$ $!]]
             [clojure.string :as string]))
 
-(defonce react
-  (cond (exists? js/React) js/React
-        (exists? js/require) (or (js/require "react")
-                                 (throw (js/Error. "require('react') failed")))
-        :else (throw (js/Error. "js/React is missing"))))
+;; Don't call it react!, var will be nil!
+;; Introduced by https://github.com/clojure/clojurescript/commit/1d38f73a86081ad54cb230c507fbae183d768d6b
+#_(defonce react js/react)
+
+(defonce module
+         js/react
+         #_(cond (exists? js/React) js/React
+                 (exists? js/require) (or (js/require "react")
+                                          (throw (js/Error. "require('react') failed")))
+                 :else (throw (js/Error. "js/React is missing"))))
 
 (def is-client (and (exists? js/window)
                     (-> js/window ($ :document) nil? not)))

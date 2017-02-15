@@ -48,7 +48,7 @@
     (if-some [v ($ p :argv)]
       (extract-children v)
       (->> ($ p :children)
-           ($ util/react Children.toArray)
+           ($ util/module Children.toArray)
            (into [])))))
 
 (defn ^boolean reagent-class? [c]
@@ -264,7 +264,7 @@
   {:pre [(map? body)]}
   (->> body
        cljsify
-       ($ util/react createClass)))
+       ($ util/module createClass)))
 
 (defn component-path [c]
   (let [elem (some-> (or (some-> c ($ :_reactInternalInstance))

@@ -251,7 +251,7 @@
         jsprops #js{:argv v}]
     (when-some [key (key-from-vec v)]
       ($! jsprops :key key))
-    ($ util/react createElement c jsprops)))
+    ($ util/module createElement c jsprops)))
 
 (defn adapt-react-class [c]
   (doto (NativeWrapper.)
@@ -392,12 +392,12 @@
 (defn make-element [argv comp jsprops first-child]
   (case (- (count argv) first-child)
     ;; Optimize cases of zero or one child
-    0 ($ util/react createElement comp jsprops)
+    0 ($ util/module createElement comp jsprops)
 
-    1 ($ util/react createElement comp jsprops
-          (as-element (nth argv first-child nil)))
+    1 ($ util/module createElement comp jsprops
+         (as-element (nth argv first-child nil)))
 
-    (.apply ($ util/react :createElement) nil
+    (.apply ($ util/module :createElement) nil
             (reduce-kv (fn [a k v]
                          (when (>= k first-child)
                            (.push a (as-element v)))

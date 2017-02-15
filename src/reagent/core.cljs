@@ -12,7 +12,7 @@
 
 (def is-client util/is-client)
 
-(def react util/react)
+(def react util/module)
 
 (defn create-element
   "Create a native React element, by calling React.createElement directly.
