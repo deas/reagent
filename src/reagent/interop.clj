@@ -1,6 +1,7 @@
 (ns reagent.interop
   (:require [clojure.string :as string :refer [join]]
-            [clojure.java.io :as io]))
+            [clojure.java.io :as io]
+            [cljs.env :as env]))
 
 (defn- js-call [f args]
   (let [argstr (->> (repeat (count args) "~{}")
@@ -73,3 +74,11 @@
       (println "WARNING: reagent.interop/.! is deprecated in " ns " line " line
                ". Use reagent.interop/$! instead.")))
   `($! ~@args))
+
+(defmacro ns-module
+  "hacky get module"
+  [module-name]
+  (symbol "js"
+          (-> @env/*compiler*
+              (get :js-module-index)
+              (get module-name))))

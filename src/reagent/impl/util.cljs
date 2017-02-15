@@ -1,11 +1,12 @@
 (ns reagent.impl.util
-  (:require [cljsjs.react]
+  (:require [react]
             [reagent.debug :refer-macros [dbg log warn]]
-            [reagent.interop :refer-macros [$ $!]]
+            [reagent.interop :refer-macros [$ $! ns-module]]
             [clojure.string :as string]))
 
 (defonce react
-  (cond (exists? js/React) js/React
+  (ns-module "react")
+  #_(cond (exists? js/React) js/React
         (exists? js/require) (or (js/require "react")
                                  (throw (js/Error. "require('react') failed")))
         :else (throw (js/Error. "js/React is missing"))))

@@ -1,70 +1,641 @@
-(defproject reagent "0.6.0"
-  :url "http://github.com/reagent-project/reagent"
+(defproject org.clojars.deas/reagent "0.6.0-nm"
+  :url "http:/github.com/reagent-project/reagent"
   :license {:name "MIT"}
   :description "A simple ClojureScript interface to React"
 
-  :dependencies [[org.clojure/clojure "1.8.0"]
-                 [org.clojure/clojurescript "1.8.51"]
-                 [cljsjs/react-dom "15.2.1-0"]
-                 [cljsjs/react-dom-server "15.2.1-0"]]
+  :dependencies [[org.clojure/clojure "1.9.0-alpha14"]
+                 [org.clojure/clojurescript "1.9.494"]
+                 ;; We need the externs
+                 [cljsjs/react "15.4.2-2"]
+                 [cljsjs/react-dom "15.4.2-2"]
+                 [cljsjs/react-dom-server "15.4.2-2"]]
 
-  :plugins [[lein-cljsbuild "1.1.3"]
+  :plugins [[lein-cljsbuild "1.1.5"]
             [codox "0.9.0"]]
 
   :source-paths ["src"]
 
   :codox {:language :clojurescript
-          :exclude clojure.string}
+          :exclude  clojure.string}
 
-  :profiles {:test {:cljsbuild
-                    {:builds {:client {:source-paths ["test"]
-                                       :compiler
-                                       {:main "reagenttest.runtests"}}}}}
+  :profiles {:test       {:cljsbuild
+                         {:builds {:client {:source-paths ["test"]
+                                            :compiler
+                                                          {:language-in      :ecmascript5
+                                                           :verbose          true
+                                                           ;; :externs          ["./src/process.js"]
+                                                           ;; :optimizations    :whitespace
+                                                           ;; :output-dir       "outsite/public/js"
+                                                           ;; :source-map       "outsite/public/js/main.js.map" ;;    true
+                                                           ;; :source-map-timestamp true
+                                                           ;; :pseudo-names true
+                                                           :pretty-print     true
+                                                           :closure-warnings {:non-standard-jsdoc :off
+                                                                              :global-this        :off}
+                                                           ;; :closure-defines  {'process.env/NODE_ENV "production"}
+                                                           :foreign-libs     [{:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/package.json",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/server.js",
+                                                                               :module-type :commonjs,
+                                                                               :provides    ["react-dom.server"]}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react/package.json",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react/react.js",
+                                                                               :module-type :commonjs,
+                                                                               :provides    ["react"]}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/index.js",
+                                                                               :module-type :commonjs,
+                                                                               :provides    ["react-dom"]}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react/lib/React.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactDOM.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactDOMServer.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react/lib/ReactChildren.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react/lib/ReactComponent.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react/lib/ReactPureComponent.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react/lib/ReactClass.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react/lib/ReactDOMFactories.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react/lib/ReactElement.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react/lib/ReactPropTypes.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react/lib/ReactVersion.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react/lib/onlyChild.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react/lib/ReactElementValidator.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactDOMComponentTree.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactDefaultInjection.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactMount.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactReconciler.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactUpdates.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactVersion.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/findDOMNode.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/getHostComponentFromComposite.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/renderSubtreeIntoContainer.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactInstrumentation.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactDOMUnknownPropertyHook.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactDOMNullInputValuePropHook.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactDOMInvalidARIAHook.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactServerRendering.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react/lib/PooledClass.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react/lib/traverseAllChildren.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react/lib/ReactNoopUpdateQueue.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react/lib/reactProdInvariant.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react/lib/canDefineProperty.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react/lib/ReactPropTypeLocationNames.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react/lib/ReactCurrentOwner.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react/lib/ReactElementSymbol.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react/lib/ReactPropTypesSecret.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react/lib/getIteratorFn.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react/lib/ReactComponentTreeHook.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react/lib/checkReactTypeSpec.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/reactProdInvariant.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/DOMProperty.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ARIADOMPropertyConfig.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ChangeEventPlugin.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/BeforeInputEventPlugin.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/EnterLeaveEventPlugin.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactDOMComponentFlags.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/DefaultEventPluginOrder.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactDOMComponent.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/HTMLDOMPropertyConfig.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactComponentBrowserEnvironment.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactDOMTreeTraversal.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactDOMEmptyComponent.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactDOMTextComponent.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactEventListener.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactReconcileTransaction.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactInjection.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/SVGDOMPropertyConfig.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/SelectEventPlugin.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/SimpleEventPlugin.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactDefaultBatchingStrategy.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/DOMLazyTree.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactBrowserEventEmitter.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactDOMContainerInfo.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactDOMFeatureFlags.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactInstanceMap.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactFeatureFlags.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactMarkupChecksum.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactUpdateQueue.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/instantiateReactComponent.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/setInnerHTML.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/shouldUpdateReactComponent.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactRef.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/PooledClass.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/CallbackQueue.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/Transaction.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactNodeTypes.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactDebugTool.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/EventPluginRegistry.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactServerRenderingTransaction.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactServerBatchingStrategy.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react/lib/KeyEscapeUtils.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/EventPluginHub.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/EventPropagators.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/getEventTarget.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/SyntheticEvent.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/isEventSupported.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/isTextInputElement.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/SyntheticMouseEvent.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/FallbackCompositionState.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/SyntheticCompositionEvent.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/SyntheticInputEvent.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/AutoFocusUtils.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/CSSPropertyOperations.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/DOMNamespaces.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/DOMPropertyOperations.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactDOMInput.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactDOMOption.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactDOMSelect.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactDOMTextarea.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactMultiChild.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/escapeTextContentForBrowser.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/validateDOMNesting.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/DOMChildrenOperations.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactDOMIDOperations.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactInputSelection.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/EventPluginUtils.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactComponentEnvironment.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactEmptyComponent.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactHostComponent.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/SyntheticAnimationEvent.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/SyntheticClipboardEvent.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/SyntheticFocusEvent.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/SyntheticKeyboardEvent.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/SyntheticDragEvent.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/SyntheticTouchEvent.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/SyntheticTransitionEvent.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/SyntheticUIEvent.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/getEventCharCode.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/SyntheticWheelEvent.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/createMicrosoftUnsafeLocalFunction.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/setTextContent.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactEventEmitterMixin.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ViewportMetrics.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/getVendorPrefixedEventName.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/adler32.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactCompositeComponent.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/getNextDebugID.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactOwner.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactInvalidSetStateWarningHook.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactHostOperationHistoryHook.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/object-assign/package.json",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/object-assign/index.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactServerUpdateQueue.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactErrorUtils.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/accumulateInto.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/forEachAccumulated.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/getEventModifierState.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/getTextContentAccessor.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/CSSProperty.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/dangerousStyleValue.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/quoteAttributeValueForBrowser.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/LinkedValueUtils.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactChildReconciler.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/flattenChildren.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/Danger.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactDOMSelection.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/getEventKey.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/checkReactTypeSpec.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/fbjs/package.json",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/fbjs/lib/warning.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/fbjs/lib/ExecutionEnvironment.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactPropTypesSecret.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/KeyEscapeUtils.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/traverseAllChildren.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/getNodeForCharacterOffset.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactPropTypeLocationNames.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/fbjs/lib/emptyFunction.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/fbjs/lib/emptyObject.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/fbjs/lib/invariant.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/ReactElementSymbol.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/react-dom/lib/getIteratorFn.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/fbjs/lib/shallowEqual.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/fbjs/lib/EventListener.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/fbjs/lib/getUnboundedScrollPosition.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/fbjs/lib/getActiveElement.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/fbjs/lib/performanceNow.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/fbjs/lib/focusNode.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/fbjs/lib/camelizeStyleName.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/fbjs/lib/hyphenateStyleName.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/fbjs/lib/memoizeStringOnly.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/fbjs/lib/containsNode.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/fbjs/lib/performance.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/fbjs/lib/camelize.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/fbjs/lib/hyphenate.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/fbjs/lib/createNodesFromMarkup.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/fbjs/lib/isTextNode.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/fbjs/lib/createArrayFromMixed.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/fbjs/lib/getMarkupWrap.js",
+                                                                               :module-type :commonjs}
+                                                                              {:file
+                                                                                            "/home/deas/work/projects/3rd-party/reagent/node_modules/fbjs/lib/isNode.js",
+                                                                               :module-type :commonjs}]
 
-             :fig [{:dependencies [[figwheel "0.5.3-2"]]
-                    :plugins [[lein-figwheel "0.5.3-2"]]
-                    :source-paths ["demo"] ;; for lighttable
-                    :resource-paths ["site" "outsite"]
-                    :figwheel {:css-dirs ["site/public/css"]}
-                    :cljsbuild
-                    {:builds
-                     {:client
-                      {:figwheel true
-                       :compiler {:source-map true
-                                  :optimizations :none
-                                  ;; :recompile-dependents false
-                                  :output-dir "outsite/public/js/out"
-                                  :asset-path "js/out"}}}}}]
 
-             :site {:resource-paths ^:replace ["outsite"]
-                    :figwheel {:css-dirs ^:replace ["outsite/public/css"]}
-                    :cljsbuild
-                    {:builds {:client
-                              {:notify-command ["node" "bin/gen-site.js"]}}}}
+                                                           :main             "reagenttest.runtests"}}}}}
 
-             :prod [:site
-                    {:cljsbuild
-                     {:builds {:client
-                               {:compiler {:optimizations :advanced
-                                           :elide-asserts true
-                                           :pretty-print false
-                                           ;; :pseudo-names true
-                                           :output-dir "target/client"}}}}}]
+             :fig       [{:dependencies   [[figwheel "0.5.3-2"]]
+                          :plugins      [[lein-figwheel "0.5.3-2"]]
+                          :source-paths ["demo"]            ;; for lighttable
+                          :resource-paths ["site" "outsite"]
+                          :figwheel       {:css-dirs ["site/public/css"]}
+                          :cljsbuild
+                                          {:builds
+                                           {:client
+                                            {:figwheel true
+                                             :compiler {;; :source-map    true
+                                                        :optimizations :none
+                                                        ;; :recompile-dependents false
+                                                        :output-dir    "outsite/public/js/out"
+                                                        :asset-path    "js/out"}}}}}]
 
-             :webpack {:cljsbuild
-                       {:builds {:client
-                                 {:compiler
-                                  {:foreign-libs
-                                   [{:file "target/webpack/bundle.js"
-                                     :file-min "target/webpack/bundle.min.js"
-                                     :provides ["cljsjs.react.dom"
-                                                "cljsjs.react.dom.server"
-                                                "cljsjs.react"]
-                                     :requires []}]}}}}}
+             :site      {:resource-paths ^:replace ["outsite"]
+                         :figwheel       {:css-dirs ^:replace ["outsite/public/css"]}
+                         :cljsbuild
+                                         {:builds {:client
+                                                   {:notify-command ["node" "bin/gen-site.js"]}}}}
+
+             :prod      [:site
+                         {:cljsbuild
+                          {:builds {:client
+                                    {:compiler {:optimizations :advanced
+                                                :elide-asserts true
+                                                :pretty-print  false
+                                                ;; :pseudo-names true
+                                                :output-dir    "target/client"}}}}}]
+
+             :webpack   {:cljsbuild
+                         {:builds {:client
+                                   {:compiler
+                                    {:foreign-libs
+                                     [{:file     "target/webpack/bundle.js"
+                                       :file-min "target/webpack/bundle.min.js"
+                                       :provides ["cljsjs.react.dom"
+                                                  "cljsjs.react.dom.server"
+                                                  "cljsjs.react"]
+                                       :requires []}]}}}}}
 
              :prod-test [:prod :test]
 
-             :dev [:fig :test]
+             :dev       [:fig :test]
 
              :dev-notest [:fig]}
 
@@ -82,9 +653,10 @@
                                        "examples/todomvc/src"
                                        "examples/simple/src"
                                        "examples/geometry/src"]
-                        :compiler {:parallel-build true
-                                   :main "reagentdemo.core"
-                                   :output-to "outsite/public/js/main.js"}}}}
+                        :compiler     {:parallel-build true
+                                       :externs        ["./src/process.js"]
+                                       :main           "reagentdemo.core"
+                                       :output-to      "outsite/public/js/main.js"}}}}
 
-  :figwheel {:http-server-root "public" ;; assumes "resources"
-             :repl false})
+  :figwheel {:http-server-root "public"                     ;; assumes "resources"
+             :repl             false})

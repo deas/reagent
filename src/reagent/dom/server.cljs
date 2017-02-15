@@ -1,17 +1,18 @@
 (ns reagent.dom.server
-  (:require [cljsjs.react.dom.server]
+  (:require [react-dom.server]
             [reagent.impl.util :as util]
             [reagent.impl.template :as tmpl]
             [reagent.ratom :as ratom]
-            [reagent.interop :refer-macros [$ $!]]))
+            [reagent.interop :refer-macros [$ $! ns-module]]))
 
 (defonce ^:private imported nil)
 
 (defn module []
-  (cond
+  (ns-module "react-dom.server")
+  #_(cond
     (some? imported) imported
     (exists? js/ReactDOMServer) (set! imported js/ReactDOMServer)
-    (exists? js/require) (or (set! imported (js/require "react-dom/server"))
+    #_(exists? js/require) #_(or (set! imported (js/require "react-dom/server"))
                              (throw (js/Error.
                                      "require('react-dom/server') failed")))
     :else
